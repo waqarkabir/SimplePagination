@@ -1,0 +1,59 @@
+﻿@model PaginatedList<WebApp.Models.Product>
+
+<h2>Products</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Category</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var product in Model)
+        {
+            <tr>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+                <td>@product.Category?.Name</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@product.ProductId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="pagination">
+    @if (Model.HasPreviousPage)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+    }
+    else
+    {
+        <span>Previous</span>
+    }
+
+    @for (var i = 1; i <= Model.TotalPages; i++)
+    {
+        if (i == Model.PageIndex)
+        {
+            <strong>@i</strong>
+        }
+        else
+        {
+            <a asp-action="Index" asp-route-pageNumber="@i">@i</a>
+        }
+    }
+
+    @if (Model.HasNextPage)
+    {
+        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+    }
+    else
+    {
+        <span>Next</span>
+    }
+</div>
+<a asp-action="Create">Create New Product</a>
