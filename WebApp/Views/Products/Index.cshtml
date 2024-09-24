@@ -25,35 +25,45 @@
         }
     </tbody>
 </table>
-<div class="pagination">
-    @if (Model.HasPreviousPage)
-    {
-        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
-    }
-    else
-    {
-        <span>Previous</span>
-    }
 
-    @for (var i = 1; i <= Model.TotalPages; i++)
-    {
-        if (i == Model.PageIndex)
-        {
-            <strong>@i</strong>
-        }
-        else
-        {
-            <a asp-action="Index" asp-route-pageNumber="@i">@i</a>
-        }
-    }
+<nav aria-label="Page navigation">
+    <ul class="pagination">
+        <li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+            @if (Model.HasPreviousPage)
+            {
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+            }
+            else
+            {
+                <span class="page-link">Previous</span>
+            }
+        </li>
 
-    @if (Model.HasNextPage)
-    {
-        <a asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
-    }
-    else
-    {
-        <span>Next</span>
-    }
-</div>
-<a asp-action="Create">Create New Product</a>
+        @for (var i = 1; i <= Model.TotalPages; i++)
+        {
+            <li class="page-item @(i == Model.PageIndex ? "active" : "")">
+                @if (i == Model.PageIndex)
+                {
+                    <span class="page-link">@i</span>
+                }
+                else
+                {
+                    <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                }
+            </li>
+        }
+
+        <li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+            @if (Model.HasNextPage)
+            {
+                <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+            }
+            else
+            {
+                <span class="page-link">Next</span>
+            }
+        </li>
+    </ul>
+</nav>
+
+<a asp-action="Create" class="btn btn-primary">Create New Product</a>
